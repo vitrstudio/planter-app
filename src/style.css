@@ -51,6 +51,7 @@ h1 {
   min-width: 0;
   max-width: 400px;
   transition: border-color 0.2s ease;
+  width: 100%;
 }
 
 .project-input:focus {
@@ -79,6 +80,8 @@ h1 {
   cursor: pointer;
   transition: background-color 0.2s ease;
   white-space: nowrap;
+  width: 100%;
+  max-width: 400px;
 }
 
 .generate-btn:hover {
@@ -114,6 +117,7 @@ h1 {
   border-radius: 8px;
   padding: 1.25rem;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
 }
 
 .project-item:hover {
@@ -147,6 +151,7 @@ h1 {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  padding-right: 2rem;
 }
 
 .project-type {
@@ -190,4 +195,53 @@ h1 {
   max-width: 600px;
   text-align: center;
   font-weight: 500;
+}
+
+.project-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.delete-btn {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  padding: 0.5rem;
+  cursor: pointer;
+  color: #64748b;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.delete-btn:hover {
+  color: #ef4444;
+  background-color: #fee2e2;
+}
+
+.delete-btn:active {
+  transform: scale(0.95);
+}
+
+.delete-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Mobile styles */
+@media (max-width: 640px) {
+  .input-group {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .project-input,
+  .generate-btn {
+    max-width: 100%;
+  }
 }
