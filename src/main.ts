@@ -25,6 +25,10 @@ function showError(message: string) {
   }
 }
 
+function formatDate(timestamp: number): string {
+  return new Date(timestamp).toLocaleString()
+}
+
 function renderProjects() {
   const projectsList = document.getElementById('projectsList')
   if (projectsList) {
@@ -32,9 +36,16 @@ function renderProjects() {
       ? '<p class="no-projects">No projects generated yet</p>'
       : projects.map(project => `
           <div class="project-item">
-            <h3>${project.name}</h3>
-            <p class="project-type">${project.type}</p>
-            <p class="project-date">Created: ${new Date(project.createdAt).toLocaleDateString()}</p>
+            <div class="project-header">
+              <h3>${project.name}</h3>
+              <span class="project-version">v${project.version}</span>
+            </div>
+            <div class="project-details">
+              <p class="project-type">${project.type}</p>
+              <p class="project-repo">Repository ID: ${project.github_repository_id}</p>
+              <p class="project-date">Created: ${formatDate(project.created_at)}</p>
+              <p class="project-user">Created by: User #${project.user.github_user_id}</p>
+            </div>
           </div>
         `).join('')
   }
@@ -65,6 +76,7 @@ const projectInput = document.getElementById('projectName') as HTMLInputElement
 
 generateBtn?.addEventListener('click', async () => {
   const projectName = projectInput.value.trim()
+  
   if (projectName) {
     try {
       await api.createProject({
@@ -77,6 +89,8 @@ generateBtn?.addEventListener('click', async () => {
       console.error('Failed to create project:', error)
       showError('Failed to create project')
     }
+  } else {
+    showError('Please provide a project name')
   }
 })
 

@@ -1,4 +1,4 @@
-import { config } from './config'
+import { config, DEFAULT_USER_ID } from './config'
 import type { Project, CreateProjectRequest } from './config'
 
 class ApiError extends Error {
@@ -17,7 +17,7 @@ async function handleResponse<T>(response: Response): Promise<T> {
 
 export const api = {
   async createProject(project: CreateProjectRequest): Promise<Project> {
-    const response = await fetch(`${config.apiUrl}/api/projects`, {
+    const response = await fetch(`${config.apiUrl}/api/users/${DEFAULT_USER_ID}/projects`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
