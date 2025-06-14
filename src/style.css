@@ -1,0 +1,141 @@
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color: #213547;
+  background-color: #ffffff;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  text-align: center;
+  padding: 2rem;
+  max-width: 600px;
+  width: 100%;
+}
+
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  color: #2c3e50;
+}
+
+.input-group {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.project-input {
+  padding: 0.8rem 1rem;
+  font-size: 1rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 300px;
+  transition: border-color 0.2s ease;
+}
+
+.project-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+}
+
+.generate-btn {
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  background-color: #3b82f6;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.generate-btn:hover {
+  background-color: #2563eb;
+}
+
+.generate-btn:active {
+  transform: scale(0.98);
+}
+
+.projects-section {
+  margin-top: 3rem;
+  width: 100%;
+}
+
+.projects-section h2 {
+  font-size: 1.5rem;
+  color: #2c3e50;
+  margin-bottom: 1rem;
+}
+
+.projects-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.project-item {
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 1rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.project-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+}
+
+.project-item h3 {
+  color: #1e293b;
+  margin-bottom: 0.5rem;
+}
+
+.project-type {
+  color: #3b82f6;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+.project-date {
+  color: #64748b;
+  font-size: 0.875rem;
+}
+
+.no-projects {
+  text-align: center;
+  color: #64748b;
+  font-style: italic;
+}
+
+.error-message {
+  display: none;
+  background-color: #fee2e2;
+  color: #dc2626;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  margin: 1rem auto;
+  max-width: 600px;
+  text-align: center;
+  font-weight: 500;
+}
