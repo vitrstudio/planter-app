@@ -2,6 +2,8 @@ import './style.css'
 import { api } from './api'
 import type { Project, User } from './config'
 import { setDefaultUserId, getDefaultUserId } from './config'
+import { config } from './config'
+console.log("API URL is", config.apiUrl)
 
 // Declare the global function type
 declare global {
