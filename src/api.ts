@@ -1,11 +1,13 @@
-import { config, getDefaultUserId, setDefaultUserId } from './config'
+import { config, getDefaultUserId } from './config'
 import type { Project, CreateProjectRequest } from './config'
 import type { User } from './config'
 
 class ApiError extends Error {
-  constructor(public status: number, message: string) {
-    super(message)
-    this.name = 'ApiError'
+  status: number;
+  constructor(status: number, message: string) {
+    super(message);
+    this.status = status;
+    this.name = 'ApiError';
   }
 }
 
