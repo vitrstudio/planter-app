@@ -1,5 +1,6 @@
-import { config, DEFAULT_USER_ID } from './config'
+import { config, getDefaultUserId, setDefaultUserId } from './config'
 import type { Project, CreateProjectRequest } from './config'
+import type { User } from './config'
 
 class ApiError extends Error {
   constructor(public status: number, message: string) {
@@ -17,7 +18,7 @@ async function handleResponse<T>(response: Response): Promise<T> {
 
 export const api = {
   async createProject(project: CreateProjectRequest): Promise<Project> {
-    const response = await fetch(`${config.apiUrl}/api/users/${DEFAULT_USER_ID}/projects`, {
+    const response = await fetch(`${config.apiUrl}/api/users/${getDefaultUserId()}/projects`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -43,5 +44,10 @@ export const api = {
     if (!response.ok) {
       throw new ApiError(response.status, `HTTP error! status: ${response.status}`)
     }
+  },
+
+  async getUsers(): Promise<User[]> {
+    const response = await fetch(`${config.apiUrl}/api/users`)
+    return handleResponse<User[]>(response)
   }
 } 

@@ -25,5 +25,10 @@ export interface CreateProjectRequest {
   type: ProjectType
 }
 
-// For now, we'll hardcode the user ID since we don't have authentication yet
-export const DEFAULT_USER_ID = '0c54c56d-dd61-46b1-a4c2-3c3f1e23f1c6' 
+let DEFAULT_USER_ID = ''
+export function setDefaultUserId(id: string) {
+  DEFAULT_USER_ID = id
+}
+export function getDefaultUserId() {
+  return DEFAULT_USER_ID
+}
