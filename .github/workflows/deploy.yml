@@ -20,15 +20,23 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build
-        run: npm run build
-
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
+
+      - name: Get EC2 public IP from Secrets Manager
+        id: get-ip
+        run: |
+          SECRET_VALUE=$(aws secretsmanager get-secret-value --secret-id planter/ec2_public_ip --query SecretString --output text)
+          echo "EC2_PUBLIC_IP=${SECRET_VALUE}" >> $GITHUB_ENV
+
+      - name: Build
+        run: |
+          echo "Using API URL: http://${{ env.EC2_PUBLIC_IP }}:8080"
+          VITE_PLANTER_API_URL=http://${{ env.EC2_PUBLIC_IP }}:8080 npm run build
 
       - name: Sync to S3
         run: aws s3 sync ./dist s3://planter-app-a9191e2a --delete

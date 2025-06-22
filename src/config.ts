@@ -1,5 +1,5 @@
 export const config = {
-  apiUrl: import.meta.env.VITE_API_URL || 'http://localhost:8080'
+  apiUrl: import.meta.env.VITE_PLANTER_API_URL || 'http://localhost:8080'
 } as const
 
 export type ProjectType = 'ECOMMERCE' | 'BLOG' | 'PORTFOLIO'
