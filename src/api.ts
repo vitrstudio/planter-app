@@ -20,7 +20,7 @@ async function handleResponse<T>(response: Response): Promise<T> {
 
 export const api = {
   async createProject(project: CreateProjectRequest): Promise<Project> {
-    const response = await fetch(`${config.apiUrl}/api/users/${getDefaultUserId()}/projects`, {
+    const response = await fetch(`${config.apiUrl}/users/${getDefaultUserId()}/projects`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -31,12 +31,12 @@ export const api = {
   },
 
   async getProjects(): Promise<Project[]> {
-    const response = await fetch(`${config.apiUrl}/api/projects`)
+    const response = await fetch(`${config.apiUrl}/projects`)
     return handleResponse<Project[]>(response)
   },
 
   async deleteProject(userId: string, projectId: string, githubUserId: number): Promise<void> {
-    const response = await fetch(`${config.apiUrl}/api/users/${userId}/projects/${projectId}`, {
+    const response = await fetch(`${config.apiUrl}/users/${userId}/projects/${projectId}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -49,7 +49,7 @@ export const api = {
   },
 
   async getUsers(): Promise<User[]> {
-    const response = await fetch(`${config.apiUrl}/api/users`)
+    const response = await fetch(`${config.apiUrl}/users`)
     return handleResponse<User[]>(response)
   }
 } 
