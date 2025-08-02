@@ -113,7 +113,6 @@ function renderProjects() {
           <div class="project-item">
             <div class="project-header">
               <h3>${project.name}</h3>
-              <span class="project-version">v${project.version}</span>
             </div>
             <div class="project-details">
               <p class="project-type">${project.type}</p>
