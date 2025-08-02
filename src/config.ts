@@ -12,7 +12,6 @@ export interface User {
 
 export interface Project {
   id: string
-  version: number
   name: string
   github_repository_id: number
   type: ProjectType
