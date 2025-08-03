@@ -3,6 +3,7 @@ import { api } from './api'
 import type { Project, User } from './config'
 import { setDefaultUserId, getDefaultUserId } from './config'
 import { config } from './config'
+import { APP_VERSION } from './version'
 console.log("API URL is", config.apiUrl)
 
 // Declare the global function type
@@ -78,6 +79,7 @@ function renderTabs() {
         </div>
       </div>
     </div>
+    <div class="version-display">v${APP_VERSION}</div>
     <div class="container">
       <div id="tabContent"></div>
     </div>
