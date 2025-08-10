@@ -77,6 +77,9 @@ class GitHubAuth {
     }
 
     try {
+      if (!code) {
+        console.error('just faking use of code variable')
+      }
       // In the future, this will call your API endpoint
       // const response = await fetch('https://api.vitruviux.com/auth/github', {
       //   method: 'POST',
