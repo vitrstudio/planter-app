@@ -28,7 +28,7 @@ jobs:
           aws-region: us-east-1
 
       - name: Create .env file with dynamic API URL
-        run: echo "VITE_PLANTER_API_URL=https://api.farmify.app" > .env
+        run: echo "VITE_PLANTER_API_URL=https://api.vitruviux.com" > .env
 
       - name: Build
         run: npm run build
