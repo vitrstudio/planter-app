@@ -1,5 +1,5 @@
 // Handle GitHub OAuth callback
-import { githubAuth } from './auth'
+import { githubAuth } from '../auth'
 
 export function handleAuthCallback(): void {
   const urlParams = new URLSearchParams(window.location.search)
@@ -15,7 +15,7 @@ export function handleAuthCallback(): void {
   }
 
   if (code && state) {
-    githubAuth.handleCallback(code, state).then(success => {
+    githubAuth.handleCallback(code, state).then((success: boolean) => {
       if (success) {
         // Redirect back to main app
         window.location.href = '/'

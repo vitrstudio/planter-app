@@ -1,17 +1,4 @@
-// GitHub OAuth configuration and authentication logic
-interface GitHubUser {
-  id: number
-  login: string
-  avatar_url: string
-  name: string
-  email?: string
-}
-
-interface AuthState {
-  isAuthenticated: boolean
-  user: GitHubUser | null
-  token: string | null
-}
+import type { GitHubUser, AuthState } from './types'
 
 class GitHubAuth {
   private clientId: string
@@ -159,6 +146,3 @@ class GitHubAuth {
 
 // Create and export singleton instance
 export const githubAuth = new GitHubAuth()
-
-// Export types for use in other modules
-export type { GitHubUser, AuthState }

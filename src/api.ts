@@ -1,15 +1,6 @@
 import { config, getDefaultUserId } from './config'
-import type { Project, CreateProjectRequest } from './config'
-import type { User } from './config'
-
-class ApiError extends Error {
-  status: number;
-  constructor(status: number, message: string) {
-    super(message);
-    this.status = status;
-    this.name = 'ApiError';
-  }
-}
+import type { Project, CreateProjectRequest, User } from './types'
+import { ApiError } from './types'
 
 async function handleResponse<T>(response: Response): Promise<T> {
   if (!response.ok) {

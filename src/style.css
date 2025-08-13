@@ -36,28 +36,28 @@ body {
   min-height: 100vh;
 }
 
-/* Login Screen */
+/* Login Screen - Original Clean Style */
 .login-container {
+  background: #f8fafc;
+  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
   padding: 2rem;
 }
 
 .login-card {
-  background: var(--background-color);
-  border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-lg);
+  background: white;
+  border-radius: 12px;
   padding: 3rem;
   text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   max-width: 400px;
   width: 100%;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .logo-container {
+  margin-bottom: 20px;
 }
 
 .logo {
@@ -67,16 +67,17 @@ body {
 
 .login-card h1 {
   font-family: 'JetBrains Mono', 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
-  font-size: 1.8rem;
+  font-size: 1.4rem;
   font-weight: 700;
   color: var(--text-primary);
   margin-bottom: 0.5rem;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.01em;
   text-transform: uppercase;
+  opacity: 0.5;
 }
 
 .login-subtitle {
-  color: var(--text-secondary);
+  color: #6b7280;
   margin-bottom: 2rem;
   font-size: 1.1rem;
 }
@@ -88,21 +89,21 @@ body {
   gap: 0.75rem;
   width: 100%;
   padding: 1rem 1.5rem;
-  background: var(--text-primary);
+  background: #24292e;
   color: white;
   border: none;
-  border-radius: var(--radius-md);
+  border-radius: 8px;
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .github-login-btn:hover {
   background: #374151;
   transform: translateY(-1px);
-  box-shadow: var(--shadow-md);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
 }
 
 .github-icon {
@@ -424,35 +425,33 @@ body {
   font-size: 1.125rem;
 }
 
+/* VITRUVIUX Title - Original Clean Style */
+.vitruviux-title {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 3.5rem;
+  color: #333;
+  text-align: center;
+  margin: 20px 0;
+}
+
+/* Simple hover effect */
+.vitruviux-title:hover {
+  color: #4f46e5;
+  transition: color 0.2s ease;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
-  .container {
-    padding: 1rem;
-    margin-top: 4rem;
+  .vitruviux-title {
+    font-size: 2.5rem;
+    letter-spacing: 0.08em;
   }
-  
-  .header-content {
-    padding: 1rem;
-  }
-  
-  .hero-section h1 {
-    font-size: 1.5rem;
-  }
-  
-  .hero-subtitle {
-    font-size: 1rem;
-  }
-  
-  .project-form {
-    padding: 1.5rem;
-  }
-  
-  .projects-list {
-    grid-template-columns: 1fr;
-  }
-  
-  .login-card {
-    padding: 2rem;
-    margin: 1rem;
+}
+
+@media (max-width: 480px) {
+  .vitruviux-title {
+    font-size: 2rem;
+    letter-spacing: 0.05em;
   }
 }
