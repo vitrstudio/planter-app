@@ -1,5 +1,5 @@
 import { config } from '../config'
-import type { GitHubUser, AuthState, SessionResponse } from '../types'
+import type { GitHubUser, AuthState } from '../types'
 
 export class AuthService {
   private currentUser: GitHubUser | null = null
