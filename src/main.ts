@@ -30,29 +30,57 @@ async function loadProjects() {
 }
 
 async function checkAuthStatus() {
-  await authService.checkAuthStatus()
-  
-  if (authService.isUserAuthenticated()) {
-    renderApp(authService.getCurrentUser())
-    await loadProjects()
-  } else {
-    // Check for error parameters in URL
-    const urlParams = new URLSearchParams(window.location.search)
-    const error = urlParams.get('error')
+  try {
+    const authState = await authService.checkAuthStatus()
     
-    let errorMessage = ''
-    if (error === 'auth_failed') {
-      errorMessage = 'Authentication failed. Please try again.'
-    } else if (error) {
-      errorMessage = `Authentication error: ${error}`
+    if (authState.isAuthenticated) {
+      renderApp(authState.user)
+      await loadProjects()
+    } else {
+      // Check for OAuth callback parameters
+      const urlParams = new URLSearchParams(window.location.search)
+      const code = urlParams.get('code')
+      const state = urlParams.get('state')
+      const error = urlParams.get('error')
+      
+      if (code && state) {
+        // Handle OAuth callback
+        const success = await authService.handleCallback(code, state)
+        if (success) {
+          // Clear URL parameters and redirect
+          window.history.replaceState({}, document.title, window.location.pathname)
+          await checkAuthStatus() // Re-check auth status
+          return
+        } else {
+          renderLogin('GitHub authentication failed. Please try again.')
+        }
+      } else if (error) {
+        let errorMessage = ''
+        if (error === 'access_denied') {
+          errorMessage = 'GitHub access was denied. Please try again.'
+        } else if (error === 'auth_failed') {
+          errorMessage = 'Authentication failed. Please try again.'
+        } else {
+          errorMessage = `Authentication error: ${error}`
+        }
+        renderLogin(errorMessage)
+      } else {
+        renderLogin()
+      }
     }
-    
-    renderLogin(errorMessage)
+  } catch (error) {
+    console.error('Auth check failed:', error)
+    renderLogin('Authentication check failed. Please try again.')
   }
 }
 
-function handleGitHubLogin() {
-  authService.initiateLogin()
+async function handleGitHubLogin() {
+  try {
+    await authService.initiateLogin()
+  } catch (error) {
+    console.error('Failed to initiate GitHub login:', error)
+    showError('Failed to start GitHub authentication. Please try again.')
+  }
 }
 
 async function handleDelete(project: any) {

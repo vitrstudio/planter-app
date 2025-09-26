@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub OAuth Callback - Vitruviux</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .callback-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+        
+        .logo {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 1rem;
+        }
+        
+        .title {
+            color: #333;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .message {
+            color: #666;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+        
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .error {
+            color: #dc2626;
+            background: #fef2f2;
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid #fecaca;
+            margin-top: 1rem;
+        }
+        
+        .retry-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .retry-btn:hover {
+            background: #5a67d8;
+        }
+    </style>
+</head>
+<body>
+    <div class="callback-container">
+        <img src="/vitruviux-logo.png" alt="Vitruviux" class="logo" />
+        <h1 class="title">Authenticating...</h1>
+        <p class="message">Please wait while we complete your GitHub authentication.</p>
+        <div class="spinner"></div>
+        <div id="error-container" style="display: none;">
+            <div class="error" id="error-message"></div>
+            <button class="retry-btn" onclick="retryAuth()">Try Again</button>
+        </div>
+    </div>
+
+    <script>
+        async function handleCallback() {
+            try {
+                const urlParams = new URLSearchParams(window.location.search);
+                const code = urlParams.get('code');
+                const state = urlParams.get('state');
+                const error = urlParams.get('error');
+                
+                console.log('OAuth Callback - Code:', code ? 'Present' : 'Missing');
+                console.log('OAuth Callback - State:', state ? 'Present' : 'Missing');
+                console.log('OAuth Callback - Error:', error || 'None');
+                
+                if (error) {
+                    showError(`Authentication failed: ${error}`);
+                    return;
+                }
+                
+                if (!code) {
+                    showError('No authorization code received from GitHub');
+                    return;
+                }
+                
+                // Exchange code for token via backend
+                const apiUrl = window.location.hostname === 'localhost' ? 'http://localhost:8080' : 'https://api.vitruviux.com';
+                console.log('Calling backend API:', `${apiUrl}/auth/github/callback`);
+                
+                const response = await fetch(`${apiUrl}/auth/github/callback`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ code, state })
+                });
+                
+                console.log('Backend response status:', response.status);
+                
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({}));
+                    console.error('Backend error response:', errorData);
+                    throw new Error(errorData.message || `Backend returned ${response.status}: ${response.statusText}`);
+                }
+                
+                const data = await response.json();
+                console.log('Backend success response:', data);
+                
+                // Store authentication data
+                localStorage.setItem('github_token', data.accessToken);
+                localStorage.setItem('github_user', JSON.stringify(data.user));
+                
+                console.log('Authentication data stored, redirecting to main app...');
+                
+                // Redirect back to main app
+                window.location.href = '/';
+                
+            } catch (error) {
+                console.error('OAuth callback error:', error);
+                showError(error.message || 'Authentication failed. Please try again.');
+            }
+        }
+        
+        function showError(message) {
+            document.getElementById('error-message').textContent = message;
+            document.getElementById('error-container').style.display = 'block';
+            document.querySelector('.spinner').style.display = 'none';
+            document.querySelector('.message').textContent = 'Authentication failed.';
+        }
+        
+        function retryAuth() {
+            // Redirect back to login
+            window.location.href = '/';
+        }
+        
+        // Handle the callback when page loads
+        handleCallback();
+    </script>
+</body>
+</html>

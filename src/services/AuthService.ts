@@ -1,36 +1,148 @@
-import { githubAuth } from '../auth'
+import { config } from '../config'
 import type { GitHubUser, AuthState } from '../types'
 
 export class AuthService {
   private currentUser: GitHubUser | null = null
-  private isAuthenticated = false
+  private authToken: string | null = null
 
-  async checkAuthStatus(): Promise<AuthState> {
-    const authState = await githubAuth.checkAuthStatus()
-    this.isAuthenticated = authState.isAuthenticated
-    this.currentUser = authState.user
-    return authState
+  constructor() {
+    this.loadStoredAuth()
   }
 
-  initiateLogin(): void {
-    githubAuth.initiateLogin()
+  private loadStoredAuth(): void {
+    const token = localStorage.getItem('github_token')
+    const userData = localStorage.getItem('github_user')
+    
+    if (token && userData) {
+      try {
+        this.authToken = token
+        this.currentUser = JSON.parse(userData) as GitHubUser
+      } catch {
+        this.logout()
+      }
+    }
   }
 
-  logout(): void {
-    githubAuth.logout()
-    this.isAuthenticated = false
-    this.currentUser = null
+  public async initiateLogin(): Promise<void> {
+    try {
+      // Call backend to get GitHub OAuth URL
+      const response = await fetch(`${config.apiUrl}/auth/github/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to initiate GitHub OAuth')
+      }
+
+      const data = await response.json()
+      
+      // Redirect to GitHub OAuth
+      window.location.href = data.authUrl
+    } catch (error) {
+      console.error('Failed to initiate GitHub OAuth:', error)
+      throw error
+    }
   }
 
-  getCurrentUser(): GitHubUser | null {
+  public async handleCallback(code: string, state: string): Promise<boolean> {
+    try {
+      // Exchange code for token via backend
+      const response = await fetch(`${config.apiUrl}/auth/github/callback`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ code, state })
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to exchange code for token')
+      }
+
+      const data = await response.json()
+      
+      // Store authentication data
+      this.authToken = data.accessToken
+      this.currentUser = data.user
+      
+      localStorage.setItem('github_token', data.accessToken)
+      localStorage.setItem('github_user', JSON.stringify(data.user))
+      
+      return true
+    } catch (error) {
+      console.error('Failed to handle OAuth callback:', error)
+      return false
+    }
+  }
+
+  public async validateToken(): Promise<boolean> {
+    if (!this.authToken) {
+      return false
+    }
+
+    try {
+      const response = await fetch(`${config.apiUrl}/auth/github/success`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${this.authToken}`
+        }
+      })
+
+      if (!response.ok) {
+        this.logout()
+        return false
+      }
+
+      return true
+    } catch (error) {
+      console.error('Token validation failed:', error)
+      this.logout()
+      return false
+    }
+  }
+
+  public async checkAuthStatus(): Promise<AuthState> {
+    if (this.authToken && this.currentUser) {
+      // Validate token with backend
+      const isValid = await this.validateToken()
+      if (!isValid) {
+        this.logout()
+        return { isAuthenticated: false, user: null, token: null }
+      }
+      
+      return {
+        isAuthenticated: true,
+        user: this.currentUser,
+        token: this.authToken
+      }
+    }
+    
+    return {
+      isAuthenticated: false,
+      user: null,
+      token: null
+    }
+  }
+
+  public isUserAuthenticated(): boolean {
+    return this.currentUser !== null && this.authToken !== null
+  }
+
+  public getCurrentUser(): GitHubUser | null {
     return this.currentUser
   }
 
-  isUserAuthenticated(): boolean {
-    return this.isAuthenticated
+  public getAuthToken(): string | null {
+    return this.authToken
   }
 
-  async handleCallback(code: string, state: string): Promise<boolean> {
-    return await githubAuth.handleCallback(code, state)
+  public logout(): void {
+    this.currentUser = null
+    this.authToken = null
+    localStorage.removeItem('github_token')
+    localStorage.removeItem('github_user')
   }
 }

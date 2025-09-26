@@ -16,7 +16,6 @@ UI components that handle rendering and user interface logic:
 Business logic and data management:
 - `ProjectService.ts` - Handles project CRUD operations
 - `AuthService.ts` - Manages authentication state and flow
-- `auth-callback.ts` - Handles OAuth callback processing
 - `index.ts` - Centralized exports for all services
 
 ### `/types`
