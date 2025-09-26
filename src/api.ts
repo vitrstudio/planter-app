@@ -9,29 +9,40 @@ async function handleResponse<T>(response: Response): Promise<T> {
   return response.json()
 }
 
+function getAuthHeaders(): HeadersInit {
+  const token = localStorage.getItem('github_token')
+  const headers: HeadersInit = {
+    'Content-Type': 'application/json'
+  }
+  
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`
+  }
+  
+  return headers
+}
+
 export const api = {
   async createProject(project: CreateProjectRequest): Promise<Project> {
     const response = await fetch(`${config.apiUrl}/users/${getDefaultUserId()}/projects`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: getAuthHeaders(),
       body: JSON.stringify(project),
     })
     return handleResponse<Project>(response)
   },
 
   async getProjects(): Promise<Project[]> {
-    const response = await fetch(`${config.apiUrl}/projects`)
+    const response = await fetch(`${config.apiUrl}/projects`, {
+      headers: getAuthHeaders()
+    })
     return handleResponse<Project[]>(response)
   },
 
   async deleteProject(userId: string, projectId: string, githubUserId: number): Promise<void> {
     const response = await fetch(`${config.apiUrl}/users/${userId}/projects/${projectId}`, {
       method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: getAuthHeaders(),
       body: JSON.stringify({ github_user_id: githubUserId }),
     })
     if (!response.ok) {
@@ -40,7 +51,9 @@ export const api = {
   },
 
   async getUsers(): Promise<User[]> {
-    const response = await fetch(`${config.apiUrl}/users`)
+    const response = await fetch(`${config.apiUrl}/users`, {
+      headers: getAuthHeaders()
+    })
     return handleResponse<User[]>(response)
   }
 } 

@@ -121,9 +121,9 @@
                 
                 // Exchange code for token via backend
                 const apiUrl = window.location.hostname === 'localhost' ? 'http://localhost:8080' : 'https://api.vitruviux.com';
-                console.log('Calling backend API:', `${apiUrl}/auth/github/callback`);
+                console.log('Calling backend API:', `${apiUrl}/auth/github/signin`);
                 
-                const response = await fetch(`${apiUrl}/auth/github/callback`, {
+                const response = await fetch(`${apiUrl}/auth/github/signin`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -139,12 +139,30 @@
                     throw new Error(errorData.message || `Backend returned ${response.status}: ${response.statusText}`);
                 }
                 
-                const data = await response.json();
-                console.log('Backend success response:', data);
+                const sessionData = await response.json();
+                console.log('Backend success response:', sessionData);
                 
-                // Store authentication data
-                localStorage.setItem('github_token', data.accessToken);
-                localStorage.setItem('github_user', JSON.stringify(data.user));
+                // Store authentication data (backend uses snake_case)
+                localStorage.setItem('github_token', sessionData.access_token);
+                localStorage.setItem('user_id', sessionData.user_id);
+                localStorage.setItem('refresh_token', sessionData.refresh_token);
+                
+                // Fetch user data using the access token
+                try {
+                    const userResponse = await fetch(`${apiUrl}/users/${sessionData.user_id}`, {
+                        method: 'GET',
+                        headers: {
+                            'Authorization': `Bearer ${sessionData.access_token}`
+                        }
+                    });
+                    
+                    if (userResponse.ok) {
+                        const userData = await userResponse.json();
+                        localStorage.setItem('github_user', JSON.stringify(userData));
+                    }
+                } catch (error) {
+                    console.error('Failed to fetch user data:', error);
+                }
                 
                 console.log('Authentication data stored, redirecting to main app...');
                 

@@ -1,5 +1,5 @@
 import './style.css'
-import { config } from './config'
+import { config, setDefaultUserId } from './config'
 import { ProjectService, AuthService } from './services'
 import { renderLogin, renderApp, renderProjectsTab } from './components'
 import { showError } from './utils'
@@ -34,6 +34,10 @@ async function checkAuthStatus() {
     const authState = await authService.checkAuthStatus()
     
     if (authState.isAuthenticated) {
+      // Set the user ID for API calls
+      if (authState.userId) {
+        setDefaultUserId(authState.userId)
+      }
       renderApp(authState.user)
       await loadProjects()
     } else {

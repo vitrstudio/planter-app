@@ -28,10 +28,17 @@ export interface GitHubUser {
   email?: string
 }
 
+export interface SessionResponse {
+  userId: string
+  accessToken: string
+  refreshToken: string
+}
+
 export interface AuthState {
   isAuthenticated: boolean
   user: GitHubUser | null
   token: string | null
+  userId: string | null
 }
 
 export class ApiError extends Error {
