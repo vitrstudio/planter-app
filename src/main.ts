@@ -109,6 +109,11 @@ function setupProjectFormListeners() {
   const projectTypeSelect = document.getElementById('projectType') as HTMLSelectElement
   
   if (generateBtn && projectInput && projectTypeSelect) {
+    // Remove focus from dropdown after selection
+    projectTypeSelect.addEventListener('change', () => {
+      projectTypeSelect.blur()
+    })
+    
     generateBtn.addEventListener('click', async () => {
       const projectName = projectInput.value.trim()
       const projectType = projectTypeSelect.value

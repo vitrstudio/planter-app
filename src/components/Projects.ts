@@ -3,11 +3,6 @@ import { formatDate } from '../utils'
 
 export function renderProjects(projects: Project[]) {
   return `
-    <div class="hero-section">
-      <h1>Generate Your Next Project</h1>
-      <p class="hero-subtitle">Create amazing projects with AI-powered insights and best practices</p>
-    </div>
-    
     <div class="project-form">
       <div class="form-group">
         <label for="projectName">Project Name</label>
@@ -20,18 +15,18 @@ export function renderProjects(projects: Project[]) {
       </div>
       <div class="form-group">
         <label for="projectType">Project Type</label>
-        <select id="projectType" class="project-select">
-          <option value="ECOMMERCE">E-commerce</option>
-          <option value="BLOG">Blog</option>
-          <option value="PORTFOLIO">Portfolio</option>
-          <option value="DASHBOARD">Dashboard</option>
-        </select>
+        <div class="select-wrapper">
+          <select id="projectType" class="project-select">
+            <option value="ECOMMERCE">E-commerce</option>
+            <option value="BLOG">Blog</option>
+            <option value="PORTFOLIO">Portfolio</option>
+            <option value="DASHBOARD">Dashboard</option>
+          </select>
+          <div class="select-arrow"></div>
+        </div>
       </div>
       <button id="generateBtn" class="generate-btn">
-        <svg class="sparkles-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M12 3l1.09 6.26L22 12l-8.91 2.74L12 21l-1.09-6.26L2 12l8.91-2.74L12 3z"/>
-        </svg>
-        Generate Project
+        Generate
       </button>
     </div>
     
