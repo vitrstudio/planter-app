@@ -5,7 +5,7 @@ export function renderHeader(currentUser: GitHubUser | null) {
     <div class="header-fixed">
       <div class="header-content">
         <div class="header-left">
-          <img src="/vitruviux-logo.png" alt="Vitruviux" class="header-logo" />
+          <img src="/vitruviux-logo.png" alt="vitruviux" class="header-logo" />
         </div>
         <div class="header-right">
           <div class="user-info">

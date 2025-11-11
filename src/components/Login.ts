@@ -4,7 +4,7 @@ export function renderLogin(errorMessage?: string) {
     <div class="login-container">
       <div class="login-card">
         <div class="logo-container">
-          <img src="/vitruviux-logo.png" alt="Vitruviux" class="logo" />
+          <img src="/vitruviux-logo.png" alt="vitruviux" class="logo" />
         </div>
         <div class="vitruviux-title-container">
           <h1 class="vitruviux-title">VITRUVIUX</h1>
