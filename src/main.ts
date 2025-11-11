@@ -122,7 +122,7 @@ function setupProjectFormListeners() {
         try {
           await projectService.createProject({
             name: projectName,
-            type: projectType as 'ECOMMERCE' | 'BLOG' | 'PORTFOLIO'
+            type: projectType as 'ECOMMERCE' | 'BLOG' | 'PORTFOLIO' | 'UNKNOWN'
           })
           projectInput.value = ''
           renderProjectsTab(projectService.getProjects())

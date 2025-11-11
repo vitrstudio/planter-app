@@ -21,6 +21,7 @@ export function renderProjects(projects: Project[]) {
             <option value="BLOG">Blog</option>
             <option value="PORTFOLIO">Portfolio</option>
             <option value="DASHBOARD">Dashboard</option>
+            <option value="UNKNOWN">Unknown</option>
           </select>
           <div class="select-arrow"></div>
         </div>
@@ -55,7 +56,6 @@ function renderProjectsList(projects: Project[]) {
         <p class="project-type">${project.type}</p>
         <p class="project-repo">Repository ID: ${project.github_repository_id}</p>
         <p class="project-date">Created: ${formatDate(project.created_at)}</p>
-        <p class="project-user">Created by: User #${project.user.github_user_id}</p>
       </div>
       <button 
         class="delete-btn" 

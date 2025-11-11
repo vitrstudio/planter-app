@@ -33,7 +33,7 @@ export const api = {
   },
 
   async getProjects(): Promise<Project[]> {
-    const response = await fetch(`${config.apiUrl}/projects`, {
+    const response = await fetch(`${config.apiUrl}/users/${getDefaultUserId()}/projects`, {
       headers: getAuthHeaders()
     })
     return handleResponse<Project[]>(response)

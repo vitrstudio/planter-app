@@ -1,4 +1,4 @@
-export type ProjectType = 'ECOMMERCE' | 'BLOG' | 'PORTFOLIO'
+export type ProjectType = 'ECOMMERCE' | 'BLOG' | 'PORTFOLIO' | 'UNKNOWN'
 
 export interface User {
   id: string
