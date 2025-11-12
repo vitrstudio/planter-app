@@ -9,8 +9,8 @@ export function renderHeader(currentUser: GitHubUser | null) {
         </div>
         <div class="header-right">
           <div class="user-info">
-            <img src="${currentUser?.avatar_url || ''}" alt="${currentUser?.name || 'User'}" class="user-avatar" />
             <span class="user-name">${currentUser?.name || 'User'}</span>
+            <img src="${currentUser?.avatar_url || ''}" alt="${currentUser?.name || 'User'}" class="user-avatar" onerror="this.style.display='none'" />
           </div>
           <button class="logout-btn" onclick="window.handleLogout()">Logout</button>
         </div>

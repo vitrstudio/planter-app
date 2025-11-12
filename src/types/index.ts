@@ -3,6 +3,8 @@ export type ProjectType = 'ECOMMERCE' | 'BLOG' | 'PORTFOLIO' | 'UNKNOWN'
 export interface User {
   id: string
   github_user_id: number
+  avatar_url: string
+  name: string
   created_at: number
 }
 
