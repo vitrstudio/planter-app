@@ -23,6 +23,10 @@ async function loadProjects() {
   try {
     await projectService.loadProjects()
     renderProjectsTab(projectService.getProjects())
+    // Re-attach event listeners after rendering
+    setTimeout(() => {
+      setupProjectFormListeners()
+    }, 50)
   } catch (error) {
     console.error('Failed to load projects:', error)
     showError('Failed to load projects')
@@ -107,25 +111,80 @@ function setupProjectFormListeners() {
   const generateBtn = document.getElementById('generateBtn')
   const projectInput = document.getElementById('projectName') as HTMLInputElement
   const projectTypeSelect = document.getElementById('projectType') as HTMLSelectElement
+  const deploymentPlatformSelect = document.getElementById('deploymentPlatform') as HTMLSelectElement
+  const awsFields = document.getElementById('awsFields')
   
-  if (generateBtn && projectInput && projectTypeSelect) {
+  if (generateBtn && projectInput && projectTypeSelect && deploymentPlatformSelect) {
     // Remove focus from dropdown after selection
     projectTypeSelect.addEventListener('change', () => {
       projectTypeSelect.blur()
     })
     
+    // Handle deployment platform selection
+    deploymentPlatformSelect.addEventListener('change', () => {
+      deploymentPlatformSelect.blur()
+      const platform = deploymentPlatformSelect.value
+      console.log('Deployment platform changed to:', platform)
+      
+      // Get awsFields element dynamically in case it wasn't found initially
+      const awsFieldsElement = document.getElementById('awsFields')
+      console.log('AWS fields element found:', !!awsFieldsElement)
+      
+      if (awsFieldsElement) {
+        if (platform === 'AWS') {
+          console.log('Showing AWS fields')
+          awsFieldsElement.style.display = 'block'
+        } else {
+          console.log('Hiding AWS fields')
+          awsFieldsElement.style.display = 'none'
+          // Clear AWS fields when hidden
+          const awsAccessKeyId = document.getElementById('awsAccessKeyId') as HTMLInputElement
+          const awsSecretAccessKey = document.getElementById('awsSecretAccessKey') as HTMLInputElement
+          if (awsAccessKeyId) awsAccessKeyId.value = ''
+          if (awsSecretAccessKey) awsSecretAccessKey.value = ''
+        }
+      } else {
+        console.error('AWS fields element not found!')
+      }
+    })
+    
     generateBtn.addEventListener('click', async () => {
       const projectName = projectInput.value.trim()
       const projectType = projectTypeSelect.value
+      const deploymentPlatform = deploymentPlatformSelect.value
       
       if (projectName) {
         try {
+          // Get AWS credentials if AWS is selected
+          let awsAccessKeyId = ''
+          let awsSecretAccessKey = ''
+          
+          if (deploymentPlatform === 'AWS') {
+            const awsAccessKeyIdInput = document.getElementById('awsAccessKeyId') as HTMLInputElement
+            const awsSecretAccessKeyInput = document.getElementById('awsSecretAccessKey') as HTMLInputElement
+            awsAccessKeyId = awsAccessKeyIdInput?.value.trim() || ''
+            awsSecretAccessKey = awsSecretAccessKeyInput?.value.trim() || ''
+          }
+          
           await projectService.createProject({
             name: projectName,
             type: projectType as 'ECOMMERCE' | 'BLOG' | 'PORTFOLIO' | 'UNKNOWN'
           })
+          
+          // Clear form
           projectInput.value = ''
+          deploymentPlatformSelect.value = 'NONE'
+          if (awsFields) awsFields.style.display = 'none'
+          const awsAccessKeyIdInput = document.getElementById('awsAccessKeyId') as HTMLInputElement
+          const awsSecretAccessKeyInput = document.getElementById('awsSecretAccessKey') as HTMLInputElement
+          if (awsAccessKeyIdInput) awsAccessKeyIdInput.value = ''
+          if (awsSecretAccessKeyInput) awsSecretAccessKeyInput.value = ''
+          
           renderProjectsTab(projectService.getProjects())
+          // Re-attach event listeners after rendering
+          setTimeout(() => {
+            setupProjectFormListeners()
+          }, 50)
         } catch (error) {
           console.error('Failed to create project:', error)
           showError('Failed to create project')

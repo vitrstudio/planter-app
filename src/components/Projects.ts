@@ -11,6 +11,7 @@ export function renderProjects(projects: Project[]) {
           id="projectName" 
           placeholder="Enter your project name..." 
           class="project-input"
+          autocomplete="off"
         />
       </div>
       <div class="form-group">
@@ -24,6 +25,49 @@ export function renderProjects(projects: Project[]) {
             <option value="UNKNOWN">Unknown</option>
           </select>
           <div class="select-arrow"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="deploymentPlatform">Deployment Platform</label>
+        <div class="select-wrapper">
+          <select id="deploymentPlatform" class="project-select">
+            <option value="NONE">None</option>
+            <option value="AWS">AWS</option>
+            <option value="VERCEL" disabled>Vercel (Coming soon)</option>
+          </select>
+          <div class="select-arrow"></div>
+        </div>
+      </div>
+      <div id="awsFields" class="aws-fields" style="display: none;">
+        <div class="aws-fields-header">
+          <div class="info-icon-wrapper">
+            <svg class="info-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="16" x2="12" y2="12"></line>
+              <line x1="12" y1="8" x2="12.01" y2="8"></line>
+            </svg>
+            <div class="tooltip">We won't store any of your environment values. They will be stored directly on github under the repository scope. If you prefer it, you can also set the variables directly on Github.</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="awsAccessKeyId">AWS Access Key</label>
+          <input 
+            type="text" 
+            id="awsAccessKeyId" 
+            placeholder="Enter your AWS Access Key ID" 
+            class="project-input"
+            autocomplete="off"
+          />
+        </div>
+        <div class="form-group">
+          <label for="awsSecretAccessKey">AWS Secret Access Key</label>
+          <input 
+            type="password" 
+            id="awsSecretAccessKey" 
+            placeholder="Enter your AWS Secret Access Key" 
+            class="project-input"
+            autocomplete="new-password"
+          />
         </div>
       </div>
       <button id="generateBtn" class="generate-btn">
