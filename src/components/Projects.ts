@@ -1,7 +1,17 @@
 import type { Project } from '../types'
 import { formatDate } from '../utils'
 
-export function renderProjects(projects: Project[]) {
+export function renderProjectsGrid(projects: Project[]) {
+  return `
+    <div class="projects-section">
+      <div id="projectsList" class="projects-list">
+        ${renderProjectsList(projects)}
+      </div>
+    </div>
+  `
+}
+
+export function renderProjectForm() {
   return `
     <div class="project-form">
       <div class="form-group">
@@ -39,50 +49,33 @@ export function renderProjects(projects: Project[]) {
         </div>
       </div>
       <div id="awsFields" class="aws-fields" style="display: none;">
-        <div class="aws-fields-header">
-          <div class="info-icon-wrapper">
-            <svg class="info-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"></circle>
-              <line x1="12" y1="16" x2="12" y2="12"></line>
-              <line x1="12" y1="8" x2="12.01" y2="8"></line>
-            </svg>
-            <div class="tooltip">We won't store any of your environment values. They will be stored directly on github under the repository scope. If you prefer it, you can also set the variables directly on Github.</div>
-          </div>
-        </div>
         <div class="form-group">
-          <label for="awsAccessKeyId">AWS Access Key</label>
+          <label for="awsAccountId">AWS Account ID</label>
           <input 
             type="text" 
-            id="awsAccessKeyId" 
-            placeholder="Enter your AWS Access Key ID" 
+            id="awsAccountId" 
+            placeholder="Enter your AWS Account ID" 
             class="project-input"
             autocomplete="off"
+            maxlength="12"
+            pattern="[0-9]{12}"
           />
-        </div>
-        <div class="form-group">
-          <label for="awsSecretAccessKey">AWS Secret Access Key</label>
-          <input 
-            type="password" 
-            id="awsSecretAccessKey" 
-            placeholder="Enter your AWS Secret Access Key" 
-            class="project-input"
-            autocomplete="new-password"
-          />
+          <div id="awsAccountIdHelper" class="helper-text" style="display: none;">
+            AWS Account ID must be a 12-digit number.
+          </div>
         </div>
       </div>
-      <button id="generateBtn" class="generate-btn">
-        Generate
-      </button>
+      <div class="form-actions">
+        <button id="cancelBtn" class="cancel-btn">
+          Cancel
+        </button>
+        <button id="generateBtn" class="generate-btn">
+          Generate
+        </button>
+      </div>
     </div>
     
     <div id="error" class="error-message"></div>
-    
-    <div class="projects-section">
-      <h2>Your Projects</h2>
-      <div id="projectsList" class="projects-list">
-        ${renderProjectsList(projects)}
-      </div>
-    </div>
   `
 }
 
@@ -100,6 +93,7 @@ function renderProjectsList(projects: Project[]) {
         <p class="project-type">${project.type}</p>
         <p class="project-repo">Repository ID: ${project.github_repository_id}</p>
         <p class="project-date">Created: ${formatDate(project.created_at)}</p>
+        ${renderInfra(project)}
       </div>
       <button 
         class="delete-btn" 
@@ -114,4 +108,29 @@ function renderProjectsList(projects: Project[]) {
       </button>
     </div>
   `).join('')
+}
+
+function renderInfra(project: Project) {
+  const infra = project.infra
+
+  if (!infra) {
+    return ''
+  }
+
+  const items = [
+    { label: 'api', value: infra.is_api_running },
+    { label: 'database', value: infra.is_database_running },
+    { label: 'static website', value: infra.is_application_bucket_created },
+  ]
+
+  const listItems = items
+    .map(item => `<li>${item.value ? '🟢' : '🔴'} <span>${item.label}</span></li>`)
+    .join('')
+
+  return `
+    <div class="project-infra">
+      <h4>Infra</h4>
+      <ul>${listItems}</ul>
+    </div>
+  `
 }

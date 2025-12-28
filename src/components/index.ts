@@ -1,4 +1,6 @@
 export { renderLogin } from './Login'
-export { renderApp, renderProjectsTab } from './App'
+export { renderApp, renderProjectsTab, renderProjectFormView } from './App'
+export { renderAwsIntegrationIndicator } from './AwsIntegrationIndicator'
+export { renderAwsIntegrationModal } from './AwsIntegrationModal'
 export { renderHeader } from './Header'
-export { renderProjects } from './Projects'
+export { renderProjectsGrid, renderProjectForm } from './Projects'

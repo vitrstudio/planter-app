@@ -263,6 +263,258 @@ body::after {
   text-align: center;
 }
 
+/* Patreon Button */
+.patreon-btn {
+  padding: 0.875rem 1.75rem;
+  background: linear-gradient(135deg, #FF424D 0%, #FF6B6B 100%);
+  color: white;
+  border: none;
+  border-radius: 14px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 
+    0 4px 16px rgba(255, 66, 77, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  letter-spacing: 0.01em;
+}
+
+.patreon-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 8px 24px rgba(255, 66, 77, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  background: linear-gradient(135deg, #FF525D 0%, #FF7B7B 100%);
+}
+
+.patreon-btn:active {
+  transform: translateY(0);
+  transition: transform 0.1s ease;
+}
+
+/* Patreon Modal */
+.patreon-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  animation: fadeIn 0.3s ease;
+}
+
+.patreon-modal-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  animation: fadeIn 0.3s ease;
+}
+
+.patreon-modal-content {
+  position: relative;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  padding: 2.5rem;
+  max-width: 560px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  z-index: 10001;
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 
+    0 20px 60px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  text-align: center;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.patreon-modal-close {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  z-index: 1;
+}
+
+.patreon-modal-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  transform: rotate(90deg);
+}
+
+.patreon-modal-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.95);
+  margin-bottom: 1.5rem;
+  line-height: 1.3;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.patreon-modal-image-container {
+  margin: 1.5rem 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.patreon-modal-image {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.patreon-modal-image-placeholder {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.patreon-modal-subtitle {
+  font-size: 1.0625rem;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.7;
+  margin-bottom: 2rem;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.patreon-modal-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  margin-top: 2rem;
+}
+
+.patreon-modal-btn-secondary {
+  flex: 1;
+  padding: 1rem 1.5rem;
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.patreon-modal-btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+  color: white;
+  transform: translateY(-2px);
+}
+
+.patreon-modal-btn-primary {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 1.5rem;
+  background: linear-gradient(135deg, #FF424D 0%, #FF6B6B 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 
+    0 4px 16px rgba(255, 66, 77, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  letter-spacing: 0.01em;
+}
+
+.patreon-modal-btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 8px 24px rgba(255, 66, 77, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  background: linear-gradient(135deg, #FF525D 0%, #FF7B7B 100%);
+}
+
+.patreon-modal-btn-primary:active {
+  transform: translateY(0);
+  transition: transform 0.1s ease;
+}
+
+@media (max-width: 640px) {
+  .patreon-btn {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.875rem;
+  }
+
+  .patreon-modal-content {
+    padding: 2rem 1.5rem;
+    width: 95%;
+  }
+
+  .patreon-modal-title {
+    font-size: 1.5rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .patreon-modal-subtitle {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .patreon-modal-actions {
+    flex-direction: column;
+  }
+
+  .patreon-modal-btn-secondary,
+  .patreon-modal-btn-primary {
+    width: 100%;
+  }
+}
+
 /* Header */
 .header-fixed {
   position: fixed;
@@ -343,6 +595,809 @@ body::after {
   transform: translateY(-1px);
 }
 
+/* AWS Integration Indicator */
+.aws-integration-indicator {
+  height: 32px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  border: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-family: inherit;
+}
+
+.aws-integration-indicator:disabled {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.aws-indicator-icon {
+  flex-shrink: 0;
+}
+
+.aws-indicator-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.aws-indicator-spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-top-color: rgba(255, 255, 255, 0.6);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Loading State */
+.aws-indicator-loading {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* Not Configured State - Neutral */
+.aws-indicator-not_configured {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.aws-indicator-not_configured .aws-indicator-icon {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.aws-indicator-not_configured .aws-indicator-dot {
+  background: rgba(255, 255, 255, 0.55);
+  box-shadow: none;
+}
+
+.aws-indicator-not_configured:hover {
+  background: rgba(255, 255, 255, 0.10);
+  transform: translateY(-1px);
+}
+
+/* Needs Attention State - Orange */
+.aws-indicator-needs_attention {
+  background: rgba(255, 159, 67, 0.14);
+  border: 1px solid rgba(255, 159, 67, 0.7);
+  color: #FF9F43;
+}
+
+.aws-indicator-needs_attention .aws-indicator-icon {
+  color: #FF9F43;
+}
+
+.aws-indicator-needs_attention .aws-indicator-dot {
+  background: #FF9F43;
+  box-shadow: 0 0 8px rgba(255, 159, 67, 0.5);
+}
+
+.aws-indicator-needs_attention:hover {
+  background: rgba(255, 159, 67, 0.20);
+  transform: translateY(-1px);
+}
+
+/* Connected State */
+.aws-indicator-connected {
+  background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  color: #0B1E11;
+}
+
+.aws-indicator-connected .aws-indicator-icon {
+  color: #0B1E11;
+}
+
+.aws-indicator-connected .aws-indicator-dot {
+  background: #2ECC71;
+  box-shadow: 0 0 8px rgba(46, 204, 113, 0.5);
+}
+
+.aws-indicator-connected:hover {
+  filter: brightness(1.05);
+  transform: translateY(-1px);
+}
+
+/* AWS Modal */
+.aws-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  animation: fadeIn 0.3s ease;
+}
+
+.aws-modal-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  animation: fadeIn 0.3s ease;
+}
+
+.aws-modal-content {
+  position: relative;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  padding: 24px;
+  max-width: 560px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  z-index: 10001;
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 
+    0 20px 60px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.aws-modal-content-large {
+  max-width: 700px;
+}
+
+.aws-modal-close {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  z-index: 1;
+}
+
+.aws-modal-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  transform: rotate(90deg);
+}
+
+.aws-modal-header {
+  margin-bottom: 24px;
+}
+
+.aws-modal-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.95);
+  margin-bottom: 0.5rem;
+  line-height: 1.3;
+}
+
+.aws-modal-subtitle {
+  font-size: 0.9375rem;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.6;
+}
+
+
+.aws-modal-body {
+  margin-bottom: 24px;
+}
+
+/* Connect Form */
+.aws-connect-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.aws-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.aws-form-group label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.aws-form-input,
+.aws-form-select {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 14px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: #2a2a3e;
+  color: rgba(255, 255, 255, 0.9);
+  height: 3rem;
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+.aws-form-input:focus,
+.aws-form-select:focus {
+  outline: none;
+  border-color: rgba(96, 165, 250, 0.5);
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);
+}
+
+.aws-form-helper {
+  font-size: 0.8125rem;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.4;
+}
+
+.aws-permissions-hint {
+  margin-top: 0.5rem;
+  padding: 0.75rem 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  font-size: 0.8125rem;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.5;
+}
+
+.aws-next-steps {
+  margin-top: 1.5rem;
+  padding: 1rem 1.25rem;
+  background: rgba(96, 165, 250, 0.1);
+  border: 1px solid rgba(96, 165, 250, 0.2);
+  border-radius: 12px;
+}
+
+.aws-next-steps-title {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 0.5rem;
+}
+
+.aws-next-steps-text {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1.6;
+  margin-bottom: 0.75rem;
+}
+
+.aws-next-steps-btn {
+  padding: 0.5rem 1rem;
+  background: transparent;
+  color: rgba(96, 165, 250, 0.9);
+  border: 1px solid rgba(96, 165, 250, 0.3);
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.aws-next-steps-btn:hover {
+  background: rgba(96, 165, 250, 0.15);
+  border-color: rgba(96, 165, 250, 0.5);
+  color: rgba(96, 165, 250, 1);
+}
+
+/* Connected View */
+.aws-summary-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-bottom: 24px;
+}
+
+.aws-status-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.375rem 0.75rem;
+  background: rgba(46, 204, 113, 0.15);
+  color: #2ECC71;
+  border-radius: 8px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.aws-status-chip svg {
+  width: 14px;
+  height: 14px;
+}
+
+.aws-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.aws-summary-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.aws-summary-item label {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.6);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.aws-summary-item value {
+  font-size: 0.9375rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+}
+
+.aws-resources-section {
+  margin-top: 24px;
+}
+
+.aws-resources-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 0.5rem;
+}
+
+.aws-resources-description {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+.aws-resource-chips {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.aws-resource-chip {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 12px;
+  padding: 0.75rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  transition: all 0.3s ease;
+}
+
+.aws-resource-chip:hover {
+  background: rgba(255, 255, 255, 0.12);
+  transform: translateY(-2px);
+}
+
+.aws-resource-label {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.6);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.aws-resource-count {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.aws-resources-hint {
+  font-size: 0.8125rem;
+  color: rgba(255, 255, 255, 0.5);
+  font-style: italic;
+  margin-top: 0.5rem;
+}
+
+.aws-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.aws-modal-btn-secondary {
+  padding: 0.875rem 1.5rem;
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.aws-modal-btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+  color: white;
+}
+
+.aws-modal-btn-primary {
+  padding: 0.875rem 1.5rem;
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 
+    0 4px 16px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.aws-modal-btn-primary:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+.aws-modal-btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.aws-modal-btn-disconnect {
+  padding: 0.875rem 1.5rem;
+  background: transparent;
+  color: #FF5252;
+  border: 1px solid rgba(244, 67, 54, 0.4);
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.aws-modal-btn-disconnect:hover {
+  background: rgba(244, 67, 54, 0.1);
+  border-color: rgba(244, 67, 54, 0.6);
+}
+
+/* AWS Tabs */
+.aws-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.aws-tab-btn {
+  padding: 0.75rem 1.25rem;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.6);
+  border: none;
+  border-bottom: 2px solid transparent;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.aws-tab-btn:hover {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.aws-tab-btn.aws-tab-active {
+  color: rgba(255, 255, 255, 0.95);
+  border-bottom-color: rgba(96, 165, 250, 0.8);
+}
+
+.aws-tab-content {
+  margin-top: 1rem;
+}
+
+/* CloudFormation Info */
+.aws-cloudformation-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.aws-info-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 0.5rem;
+}
+
+.aws-info-text {
+  font-size: 0.9375rem;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.6;
+}
+
+.aws-steps-list {
+  margin-left: 1.5rem;
+  margin-top: 0.5rem;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.8;
+}
+
+.aws-steps-list li {
+  margin-bottom: 0.75rem;
+  font-size: 0.9375rem;
+}
+
+.aws-steps-list strong {
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 600;
+}
+
+.aws-action-section {
+  margin-top: 1rem;
+}
+
+/* Code Block */
+.aws-code-block {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+  margin: 1rem 0;
+}
+
+.aws-code-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.aws-code-header span {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.7);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.aws-copy-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  padding: 0.375rem 0.5rem;
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.aws-copy-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.aws-code-content {
+  padding: 1rem;
+  margin: 0;
+  overflow-x: auto;
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.9);
+  background: transparent;
+}
+
+.aws-code-content code {
+  font-family: inherit;
+  color: inherit;
+  white-space: pre;
+}
+
+.aws-cli-steps {
+  margin-top: 1.5rem;
+}
+
+.aws-cli-steps code {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 0.875rem;
+  color: rgba(96, 165, 250, 0.9);
+}
+
+/* Refresh Section */
+.aws-refresh-section {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.aws-refresh-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: rgba(96, 165, 250, 0.15);
+  color: rgba(96, 165, 250, 0.9);
+  border: 1px solid rgba(96, 165, 250, 0.3);
+  border-radius: 10px;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.aws-refresh-btn:hover:not(:disabled) {
+  background: rgba(96, 165, 250, 0.25);
+  border-color: rgba(96, 165, 250, 0.5);
+  color: rgba(96, 165, 250, 1);
+}
+
+.aws-refresh-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.aws-refresh-hint {
+  font-size: 0.8125rem;
+  color: rgba(255, 255, 255, 0.5);
+  text-align: center;
+}
+
+/* Status Result */
+.aws-status-result {
+  margin-top: 1rem;
+  padding: 1rem 1.25rem;
+  border-radius: 12px;
+  border: 1px solid;
+  animation: slideDown 0.3s ease;
+  width: 100%;
+}
+
+.aws-status-content {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.aws-status-content svg {
+  flex-shrink: 0;
+  margin-top: 0.125rem;
+}
+
+.aws-status-text {
+  flex: 1;
+}
+
+.aws-status-text strong {
+  display: block;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  margin-bottom: 0.375rem;
+}
+
+.aws-status-text p {
+  font-size: 0.875rem;
+  margin: 0;
+  line-height: 1.5;
+  opacity: 0.9;
+}
+
+.aws-status-success {
+  background: rgba(46, 204, 113, 0.15);
+  border-color: rgba(46, 204, 113, 0.4);
+  color: #2ECC71;
+}
+
+.aws-status-success svg {
+  color: #2ECC71;
+}
+
+.aws-status-warning {
+  background: rgba(255, 159, 67, 0.15);
+  border-color: rgba(255, 159, 67, 0.4);
+  color: #FF9F43;
+}
+
+.aws-status-warning svg {
+  color: #FF9F43;
+}
+
+.aws-status-error {
+  background: rgba(244, 67, 54, 0.15);
+  border-color: rgba(244, 67, 54, 0.4);
+  color: #F44336;
+}
+
+.aws-status-error svg {
+  color: #F44336;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .aws-modal-content {
+    padding: 16px;
+    width: 95%;
+  }
+
+  .aws-summary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .aws-resource-chips {
+    grid-template-columns: 1fr;
+  }
+
+  .aws-modal-footer {
+    flex-direction: column;
+  }
+
+  .aws-modal-btn-secondary,
+  .aws-modal-btn-primary,
+  .aws-modal-btn-disconnect {
+    width: 100%;
+  }
+
+  .header-right {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+}
+
 /* Version Display */
 .version-display {
   position: fixed;
@@ -367,6 +1422,46 @@ body::after {
   margin-top: 5rem;
   position: relative;
   z-index: 1;
+}
+
+/* Action Bar */
+.action-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.create-project-btn {
+  padding: 0.875rem 1.75rem;
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 14px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 
+    0 4px 16px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  letter-spacing: 0.01em;
+}
+
+.create-project-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 
+    0 8px 24px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.create-project-btn:active {
+  transform: translateY(0);
+  transition: transform 0.1s ease;
 }
 
 
@@ -487,11 +1582,44 @@ body::after {
   box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);
 }
 
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.cancel-btn {
+  flex: 1;
+  padding: 1.125rem 2rem;
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 14px;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  letter-spacing: 0.01em;
+}
+
+.cancel-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 1);
+}
+
+.cancel-btn:active {
+  transform: translateY(-1px);
+  transition: transform 0.1s ease;
+}
+
 .generate-btn {
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
   padding: 1.125rem 2rem;
   background: rgba(255, 255, 255, 0.15);
   color: white;
@@ -509,9 +1637,15 @@ body::after {
   letter-spacing: 0.01em;
 }
 
-.generate-btn:hover {
+.generate-btn:hover:not(:disabled) {
   background: rgba(255, 255, 255, 0.25);
   border-color: rgba(255, 255, 255, 0.3);
+}
+
+.generate-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: rgba(255, 255, 255, 0.08);
 }
 
 /* AWS Fields */
@@ -622,9 +1756,17 @@ body::after {
   font-style: italic;
 }
 
-.generate-btn:active {
+.generate-btn:active:not(:disabled) {
   transform: translateY(-1px);
   transition: transform 0.1s ease;
+}
+
+/* Helper Text */
+.helper-text {
+  margin-top: 0.5rem;
+  font-size: 0.8125rem;
+  color: rgba(248, 113, 113, 0.9);
+  line-height: 1.4;
 }
 
 
@@ -646,6 +1788,7 @@ body::after {
 /* Projects Section */
 .projects-section {
   margin-top: 3rem;
+  position: relative;
 }
 
 .projects-section h2 {
@@ -736,6 +1879,36 @@ body::after {
   color: rgba(255, 255, 255, 0.7);
   font-size: 0.875rem;
   margin: 0;
+}
+
+.project-infra {
+  margin-top: 1rem;
+}
+
+.project-infra h4 {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.85);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+}
+
+.project-infra ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin: 0;
+  padding: 0;
+}
+
+.project-infra li {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.75);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .delete-btn {

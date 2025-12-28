@@ -55,5 +55,28 @@ export const api = {
       headers: getAuthHeaders()
     })
     return handleResponse<User[]>(response)
+  },
+
+  async getUser(userId: string): Promise<User> {
+    const response = await fetch(`${config.apiUrl}/users/${userId}`, {
+      headers: getAuthHeaders()
+    })
+    return handleResponse<User>(response)
+  },
+
+  async setupAwsAccount(userId: string, accountId: string): Promise<{ url: string }> {
+    const response = await fetch(`${config.apiUrl}/users/${userId}/aws`, {
+      method: 'POST',
+      headers: getAuthHeaders(),
+      body: JSON.stringify({ account_id: accountId }),
+    })
+    
+    if (!response.ok) {
+      throw new ApiError(response.status, `HTTP error! status: ${response.status}`)
+    }
+    
+    // Backend returns the URL as a plain string, not JSON
+    const url = await response.text()
+    return { url: url.trim() }
   }
 } 
