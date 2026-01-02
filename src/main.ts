@@ -23,7 +23,6 @@ declare global {
     handleCloseAwsModal: () => void
     handleAwsSetup: () => Promise<void>
     handleCheckAwsStatus: () => Promise<void>
-    handleDisconnectAws: () => Promise<void>
     handleSwitchTab: (tab: string) => void
     handleCopyCommand: () => void
   }
@@ -464,12 +463,6 @@ function setupAwsModalListeners() {
       checkBtn.addEventListener('click', handleCheckAwsStatus)
     }
     
-    const disconnectBtn = document.querySelector('.aws-modal-btn-disconnect')
-    if (disconnectBtn) {
-      disconnectBtn.removeAttribute('onclick')
-      disconnectBtn.addEventListener('click', handleDisconnectAws)
-    }
-    
     // Add validation for Account ID input
     const accountIdInput = document.getElementById('awsAccountId') as HTMLInputElement
     const setupButton = document.getElementById('awsSetupBtn') as HTMLButtonElement
@@ -680,16 +673,6 @@ function handleCopyCommand() {
   })
 }
 
-async function handleDisconnectAws() {
-  if (!confirm('Disconnect AWS?\n\nExisting resources will remain in AWS, but you won\'t be able to manage them from here.')) {
-    return
-  }
-  
-  // Note: Disconnect functionality removed as it's not part of the new API
-  // This would need to be implemented on the backend if needed
-  showError('Disconnect functionality is not available. Please contact support if you need to disconnect your AWS account.')
-}
-
 // Make functions available globally for the onclick handlers
 window.handleDelete = handleDelete
 window.handleLogout = handleLogout
@@ -700,7 +683,6 @@ window.handleAwsIndicatorClick = handleAwsIndicatorClick
 window.handleCloseAwsModal = handleCloseAwsModal
 window.handleAwsSetup = handleAwsSetup
 window.handleCheckAwsStatus = handleCheckAwsStatus
-window.handleDisconnectAws = handleDisconnectAws
 window.handleSwitchTab = handleSwitchTab
 window.handleCopyCommand = handleCopyCommand
 

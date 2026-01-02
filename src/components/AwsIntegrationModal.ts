@@ -88,9 +88,6 @@ function renderConnectedModal(integration: AwsIntegration) {
         </div>
         
         <div class="aws-modal-footer">
-          <button class="aws-modal-btn-disconnect" onclick="window.handleDisconnectAws()">
-            Disconnect AWS
-          </button>
           <button class="aws-modal-btn-primary" onclick="window.handleCloseAwsModal()">
             Close
           </button>
