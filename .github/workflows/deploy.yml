@@ -28,15 +28,15 @@ jobs:
           aws-region: us-east-1
 
       - name: Create .env file with dynamic API URL
-        run: echo "VITE_PLANTER_API_URL=https://api.vitruviux.com" > .env
+        run: echo "VITE_VITRUVIUX_API_URL=https://api.vitruviux.com" > .env
 
       - name: Build
         run: npm run build
 
       - name: Sync to S3
-        run: aws s3 sync ./dist s3://planter-app-a9191e2a --delete
+        run: aws s3 sync ./dist s3://vitruviux-app-a9191e2a --delete
 
       - name: Invalidate cloudfront cache
         run: |
-          DISTRIBUTION_ID=$(aws ssm get-parameter --name "/planter/static_website_cloudfront_id" --query "Parameter.Value" --output text)
+          DISTRIBUTION_ID=$(aws ssm get-parameter --name "/vitruviux/static_website_cloudfront_id" --query "Parameter.Value" --output text)
           aws cloudfront create-invalidation --distribution-id "$DISTRIBUTION_ID" --paths "/*"

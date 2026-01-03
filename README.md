@@ -1,4 +1,4 @@
-## Planter Application
+## Vitruviux Application
 This is a simple application that allows users to create and manage projects.
 
 ### Version upgrade

@@ -1,6 +1,6 @@
-# Planter App - Source Code Organization
+# Vitruviux App - Source Code Organization
 
-This directory contains the organized source code for the Planter App, following a clean architecture pattern.
+This directory contains the organized source code for the vitruviux App, following a clean architecture pattern.
 
 ## Directory Structure
 
