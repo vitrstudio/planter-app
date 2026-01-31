@@ -19,58 +19,21 @@ export function renderProjectForm() {
         <input 
           type="text" 
           id="projectName" 
-          placeholder="Enter your project name..." 
+          placeholder="e.g. my-cool-application" 
           class="project-input"
           autocomplete="off"
+          pattern="[a-zA-Z0-9-]+"
         />
-      </div>
-      <div class="form-group">
-        <label for="projectType">Project Type</label>
-        <div class="select-wrapper">
-          <select id="projectType" class="project-select">
-            <option value="ECOMMERCE">E-commerce</option>
-            <option value="BLOG">Blog</option>
-            <option value="PORTFOLIO">Portfolio</option>
-            <option value="DASHBOARD">Dashboard</option>
-            <option value="UNKNOWN">Unknown</option>
-          </select>
-          <div class="select-arrow"></div>
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="deploymentPlatform">Deployment Platform</label>
-        <div class="select-wrapper">
-          <select id="deploymentPlatform" class="project-select">
-            <option value="NONE">None</option>
-            <option value="AWS">AWS</option>
-            <option value="VERCEL" disabled>Vercel (Coming soon)</option>
-          </select>
-          <div class="select-arrow"></div>
-        </div>
-      </div>
-      <div id="awsFields" class="aws-fields" style="display: none;">
-        <div class="form-group">
-          <label for="awsAccountId">AWS Account ID</label>
-          <input 
-            type="text" 
-            id="awsAccountId" 
-            placeholder="Enter your AWS Account ID" 
-            class="project-input"
-            autocomplete="off"
-            maxlength="12"
-            pattern="[0-9]{12}"
-          />
-          <div id="awsAccountIdHelper" class="helper-text" style="display: none;">
-            AWS Account ID must be a 12-digit number.
-          </div>
+        <div id="projectNameError" class="helper-text" style="display: none;">
+          Use only letters, numbers, or dashes (e.g. vitruviux-app)
         </div>
       </div>
       <div class="form-actions">
         <button id="cancelBtn" class="cancel-btn">
           Cancel
         </button>
-        <button id="generateBtn" class="generate-btn">
-          Generate
+        <button id="confirmProjectBtn" class="generate-btn">
+          Create Project
         </button>
       </div>
     </div>
@@ -117,6 +80,13 @@ function renderInfra(project: Project) {
     return ''
   }
 
+  const cloudfrontUrl = infra.cloudfront_url
+  const normalizedCloudfrontUrl = cloudfrontUrl
+    ? (cloudfrontUrl.startsWith('http://') || cloudfrontUrl.startsWith('https://')
+      ? cloudfrontUrl
+      : `https://${cloudfrontUrl}`)
+    : ''
+
   const items = [
     { label: 'api', value: infra.is_api_running },
     { label: 'database', value: infra.is_database_running },
@@ -130,6 +100,11 @@ function renderInfra(project: Project) {
   return `
     <div class="project-infra">
       <h4>Infra</h4>
+      ${cloudfrontUrl ? `
+        <p class="project-cloudfront">
+          CloudFront: <a href="${normalizedCloudfrontUrl}" target="_blank" rel="noopener noreferrer">${cloudfrontUrl}</a>
+        </p>
+      ` : ''}
       <ul>${listItems}</ul>
     </div>
   `

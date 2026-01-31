@@ -217,163 +217,90 @@ function setupViewListeners() {
   }
 }
 
-// Validate AWS Account ID (must be 12 digits)
-function isValidAwsAccountId(accountId: string): boolean {
-  return /^\d{12}$/.test(accountId)
+// Validate project name (letters, numbers, dashes)
+function isValidProjectName(name: string): boolean {
+  const nameRegex = /^[a-zA-Z0-9-]+$/
+  return nameRegex.test(name.trim())
 }
 
 // Set up event listeners for project generation
 function setupProjectFormListeners() {
-  const generateBtn = document.getElementById('generateBtn') as HTMLButtonElement | null
+  const confirmProjectBtn = document.getElementById('confirmProjectBtn') as HTMLButtonElement | null
   const cancelBtn = document.getElementById('cancelBtn') as HTMLButtonElement | null
-  const projectInput = document.getElementById('projectName') as HTMLInputElement | null
-  const projectTypeSelect = document.getElementById('projectType') as HTMLSelectElement | null
-  const deploymentPlatformSelect = document.getElementById('deploymentPlatform') as HTMLSelectElement | null
-  const awsFields = document.getElementById('awsFields')
-  const awsAccountIdInput = document.getElementById('awsAccountId') as HTMLInputElement | null
-  const awsAccountIdHelper = document.getElementById('awsAccountIdHelper')
-  
+  const projectNameInput = document.getElementById('projectName') as HTMLInputElement | null
+  const projectNameError = document.getElementById('projectNameError')
+
   // Handle cancel button
   if (cancelBtn) {
     cancelBtn.addEventListener('click', () => {
       showProjectsView()
     })
   }
-  
-  // Update button state based on AWS Account ID validation
+
+  // Update button state based on name validation
   function updateButtonState() {
-    if (!generateBtn || !deploymentPlatformSelect) return
-    
-    const platform = deploymentPlatformSelect.value
-    const projectName = projectInput?.value.trim() || ''
-    
-    if (platform === 'AWS') {
-      const awsAccountId = awsAccountIdInput?.value.trim() || ''
-      const isValid = isValidAwsAccountId(awsAccountId)
-      generateBtn.disabled = !isValid
-      generateBtn.textContent = 'Launch AWS Setup'
-      
-      // Show/hide helper text
-      if (awsAccountIdHelper) {
-        if (awsAccountId && !isValid) {
-          awsAccountIdHelper.style.display = 'block'
-        } else {
-          awsAccountIdHelper.style.display = 'none'
-        }
+    if (!confirmProjectBtn || !projectNameInput) return
+
+    const name = projectNameInput.value.trim()
+    const isValid = isValidProjectName(name)
+
+    confirmProjectBtn.disabled = !isValid
+
+    if (projectNameError) {
+      if (name && !isValid) {
+        projectNameError.style.display = 'block'
+      } else {
+        projectNameError.style.display = 'none'
       }
-    } else {
-      generateBtn.disabled = !projectName
-      generateBtn.textContent = 'Generate'
     }
   }
-  
-  if (generateBtn && projectInput && projectTypeSelect && deploymentPlatformSelect) {
-    // Remove focus from dropdown after selection
-    projectTypeSelect.addEventListener('change', () => {
-      projectTypeSelect.blur()
-      updateButtonState()
-    })
-    
-    // Handle AWS Account ID input changes
-    if (awsAccountIdInput) {
-      // Only allow numeric input
-      awsAccountIdInput.addEventListener('input', (e) => {
-        const target = e.target as HTMLInputElement
-        target.value = target.value.replace(/\D/g, '')
-        updateButtonState()
-      })
-      awsAccountIdInput.addEventListener('paste', (e) => {
-        e.preventDefault()
-        const paste = (e.clipboardData || (window as any).clipboardData).getData('text')
-        const numericOnly = paste.replace(/\D/g, '')
-        awsAccountIdInput.value = numericOnly
-        updateButtonState()
-      })
-    }
-    
-    // Handle project name input changes
-    projectInput.addEventListener('input', () => {
-      updateButtonState()
-    })
-    
-    // Handle deployment platform selection
-    deploymentPlatformSelect.addEventListener('change', () => {
-      deploymentPlatformSelect.blur()
-      const platform = deploymentPlatformSelect.value
-      console.log('Deployment platform changed to:', platform)
-      
-      // Get awsFields element dynamically in case it wasn't found initially
-      const awsFieldsElement = document.getElementById('awsFields')
-      console.log('AWS fields element found:', !!awsFieldsElement)
-      
-      if (awsFieldsElement) {
-        if (platform === 'AWS') {
-          console.log('Showing AWS fields')
-          awsFieldsElement.style.display = 'block'
-        } else {
-          console.log('Hiding AWS fields')
-          awsFieldsElement.style.display = 'none'
-          // Clear AWS Account ID when hidden
-          if (awsAccountIdInput) awsAccountIdInput.value = ''
-          if (awsAccountIdHelper) awsAccountIdHelper.style.display = 'none'
-        }
-      } else {
-        console.error('AWS fields element not found!')
-      }
-      updateButtonState()
-    })
-    
-    generateBtn.addEventListener('click', async (e) => {
-      e.preventDefault()
-      
-      const projectName = projectInput.value.trim()
-      const projectType = projectTypeSelect.value
-      const platform = deploymentPlatformSelect.value
 
-      // Handle AWS setup
-      if (platform === 'AWS') {
-        const awsAccountId = awsAccountIdInput?.value.trim() || ''
-        
-        if (!isValidAwsAccountId(awsAccountId)) {
-          showError('AWS Account ID must be a 12-digit number.')
-          return
-        }
-        
-        // AWS setup is now handled through the AWS integration modal
-        // Remove this old code path
-        showError('Please connect your AWS account first using the AWS integration button in the header.')
+  // Handle project name input changes - prevent spaces and validate
+  if (projectNameInput) {
+    projectNameInput.addEventListener('input', (e) => {
+      const target = e.target as HTMLInputElement
+      target.value = target.value.replace(/\s/g, '')
+      updateButtonState()
+    })
+
+    projectNameInput.addEventListener('paste', (e) => {
+      e.preventDefault()
+      const paste = (e.clipboardData || (window as any).clipboardData).getData('text')
+      const cleaned = paste.replace(/\s/g, '')
+      projectNameInput.value = cleaned
+      updateButtonState()
+    })
+  }
+
+  // Handle project creation
+  if (confirmProjectBtn && projectNameInput) {
+    confirmProjectBtn.addEventListener('click', async (e) => {
+      e.preventDefault()
+
+      const name = projectNameInput.value.trim()
+
+      if (!isValidProjectName(name)) {
+        showError('Use only letters, numbers, or dashes (e.g. my-cool-project)')
         return
       }
 
-      // Handle regular project creation
-      if (projectName) {
-        try {
-          await projectService.createProject({
-            name: projectName,
-            type: projectType as 'ECOMMERCE' | 'BLOG' | 'PORTFOLIO' | 'UNKNOWN'
-          })
-          
-          // Clear form
-          projectInput.value = ''
-          deploymentPlatformSelect.value = 'NONE'
-          if (awsFields) awsFields.style.display = 'none'
-          if (awsAccountIdInput) awsAccountIdInput.value = ''
-          if (awsAccountIdHelper) awsAccountIdHelper.style.display = 'none'
-          
-          // Go back to projects view after successful creation
-          showProjectsView()
-        } catch (error) {
-          console.error('Failed to create project:', error)
-          showError('Failed to create project')
-        }
-      } else {
-        showError('Please provide a project name')
+      try {
+        confirmProjectBtn.disabled = true
+        await projectService.createProject({ name })
+
+        projectNameInput.value = ''
+        showProjectsView()
+      } catch (error: any) {
+        console.error('Failed to create project:', error)
+        const errorMessage = error.message || 'Failed to create project. Please try again.'
+        showError(errorMessage)
+      } finally {
+        confirmProjectBtn.disabled = false
       }
     })
-    
-    // Initial button state
-    updateButtonState()
   }
+
+  updateButtonState()
 }
 
 function handlePatreonClick() {

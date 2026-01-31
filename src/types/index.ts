@@ -1,6 +1,7 @@
 export type ProjectType = 'ECOMMERCE' | 'BLOG' | 'PORTFOLIO' | 'UNKNOWN'
 
 export interface ProjectInfra {
+  cloudfront_url?: string
   is_api_running: boolean
   is_database_running: boolean
   is_application_bucket_created: boolean
@@ -28,7 +29,6 @@ export interface Project {
 
 export interface CreateProjectRequest {
   name: string
-  type: ProjectType
 }
 
 export interface GitHubUser {
