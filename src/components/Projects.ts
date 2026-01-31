@@ -51,9 +51,9 @@ function renderProjectsList(projects: Project[]) {
     <div class="project-item">
       <div class="project-header">
         <h3>${project.name}</h3>
+        ${renderCloudfrontLink(project)}
       </div>
       <div class="project-details">
-        <p class="project-type">${project.type}</p>
         <p class="project-repo">Repository ID: ${project.github_repository_id}</p>
         <p class="project-date">Created: ${formatDate(project.created_at)}</p>
         ${renderInfra(project)}
@@ -73,19 +73,29 @@ function renderProjectsList(projects: Project[]) {
   `).join('')
 }
 
+function renderCloudfrontLink(project: Project) {
+  const cloudfrontUrl = project.infra?.cloudfront_url
+  if (!cloudfrontUrl) {
+    return ''
+  }
+
+  const normalizedCloudfrontUrl = cloudfrontUrl.startsWith('http://') || cloudfrontUrl.startsWith('https://')
+    ? cloudfrontUrl
+    : `https://${cloudfrontUrl}`
+
+  return `
+    <p class="project-cloudfront">
+      <a href="${normalizedCloudfrontUrl}" target="_blank" rel="noopener noreferrer">${cloudfrontUrl}</a>
+    </p>
+  `
+}
+
 function renderInfra(project: Project) {
   const infra = project.infra
 
   if (!infra) {
     return ''
   }
-
-  const cloudfrontUrl = infra.cloudfront_url
-  const normalizedCloudfrontUrl = cloudfrontUrl
-    ? (cloudfrontUrl.startsWith('http://') || cloudfrontUrl.startsWith('https://')
-      ? cloudfrontUrl
-      : `https://${cloudfrontUrl}`)
-    : ''
 
   const items = [
     { label: 'api', value: infra.is_api_running },
@@ -100,11 +110,6 @@ function renderInfra(project: Project) {
   return `
     <div class="project-infra">
       <h4>Infra</h4>
-      ${cloudfrontUrl ? `
-        <p class="project-cloudfront">
-          CloudFront: <a href="${normalizedCloudfrontUrl}" target="_blank" rel="noopener noreferrer">${cloudfrontUrl}</a>
-        </p>
-      ` : ''}
       <ul>${listItems}</ul>
     </div>
   `
